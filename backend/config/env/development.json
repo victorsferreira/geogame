@@ -1,0 +1,19 @@
+{
+    "name": "app-backend",
+    "port": 8090,
+    "db": {
+        "host": "localhost",
+        "port": 27017,
+        "name": "app-backend"
+    },
+    "log": {},
+    "session": {
+        "algorithm": "RS256",
+        "ttl": "1h",
+        "secret": "yousages"
+    },
+    "redis": {
+        "host": "localhost",
+        "port": "6379"
+    }
+}

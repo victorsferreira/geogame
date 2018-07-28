@@ -1,0 +1,27 @@
+{
+    "base": "api",
+    "apis": [
+        {
+            "base": "location",
+            "controller": "location",
+            "endpoints": [
+                {
+                    "method": "POST",
+                    "url": "ping",
+                    "action": "ping"
+                },
+                {
+                    "method": "GET",
+                    "url": "protected",
+                    "action": "protected",
+                    "middlewares": ["sessionProtected"]
+                },
+                {
+                    "method": "POST",
+                    "url": "login",
+                    "action": "login"
+                }
+            ]
+        }
+    ]
+}
