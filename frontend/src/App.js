@@ -7,10 +7,10 @@ class App extends Component {
     super();
 
     this.state = {
-      mensagem: 'Olá, Fabricio e Victor'
+      result: null
     };
   }
-  
+
   componentDidMount() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -19,7 +19,7 @@ class App extends Component {
           lng: position.coords.longitude
         };
 
-        this.ping(location);
+        this.unlock(location);
       }, function () {
         console.log("Something went wrong to get your current location");
       });
@@ -28,12 +28,11 @@ class App extends Component {
     }
   }
 
-  ping(location) {
-    console.log(location)
-    axios.post('http://localhost:8090/api/location/ping', {location})
+  unlock(location) {
+    axios.post('http://localhost:8090/api/location/ping', { location })
       .then((response) => {
         this.setState({
-          mensagem: response.data
+          result: response.data
         });
       })
       .catch((err) => {
@@ -45,8 +44,28 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="App-title">{this.state.mensagem}</h1>
+          <h1 className="App-title">Geogame</h1>
         </header>
+        {
+          this.state.result ? (
+            <div>
+              <h2>Parabéns!</h2>
+              <p>Você acabou de desbloquear o {this.state.result[0].name}</p>
+
+              {
+                this.state.result[0].info.map((currentInfo, i) => {
+                  return (
+                    <div key={i}>
+                      <strong>{currentInfo.title}</strong>: 
+                      <span>{currentInfo.value}</span>
+                    </div>
+                  )
+                })
+              }
+
+            </div>
+          ) : null
+        }
         <button onClick={() => {
           // this.ping();
         }}>Ping</button>

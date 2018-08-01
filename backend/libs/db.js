@@ -20,6 +20,7 @@ class Database{
                 throw err;
             });
     }
+    
 }
 
 module.exports = new Database();

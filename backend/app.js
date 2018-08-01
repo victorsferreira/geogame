@@ -14,10 +14,10 @@ process.on('uncaughtException', function (err) {
 });
 
 server.setup();
-server.connect();
+server.connect()
     // .then((app) => {
     //     return redis.connect();
     // })
-    // .then(() =>{
-    //     return database.connect();
-    // });
+    .then(() =>{
+        return database.connect();
+    });

@@ -2,6 +2,8 @@ const Joi = require('joi');
 const Mongoose = require('mongoose');
 const Joigoose = require('joigoose')(Mongoose, null, { _id: true, timestamps: false });
 
+const MongooseSchema = Mongoose.Schema;
+
 const Base = require('./Base');
 
 class BaseModel extends Base {
@@ -14,7 +16,7 @@ class BaseModel extends Base {
 
     setModel(modelName, schema) {
         this.schema = schema;
-        this.db = Mongoose.model(modelName, new Mongoose.Schema(Joigoose.convert(schema)));
+        this.db = Mongoose.model(modelName, new MongooseSchema(Joigoose.convert(schema)));
     }
 
     updateField(criteria, field, value) {
@@ -30,12 +32,40 @@ class BaseModel extends Base {
         return this.db.update(criteria, { $set: data });
     }
 
+    push(id, key, value) {
+        if (!Array.isArray(value)) value = [value];
+
+        const pushValue = {};
+        pushValue[key] = value;
+
+        return this.db.update({ _id: id }, { $push: pushValue });
+    }
+
+    pull(id, key, value) {
+        if (!Array.isArray(value)) value = [value];
+
+        const pullValue = {};
+        pullValue[key] = { $in: value };
+
+        return this.db.update({ _id: id }, { $pull: pullValue }, { multi: true });
+    }
+
+    contains(key, value) {
+        if (!Array.isArray(value)) value = [value];
+
+        const contains = {};
+        contains[key] = { $in: value };
+
+        return this.db.find(contains);
+    }
+
     create(data) {
         return this.db.create(data);
     }
 
-    edit(id, data) {
-        return this.db.update({ _id: id }, { $set: data });
+    edit(id, data, options) {
+        if(!options) options = { new: true };
+        return this.db.findOneAndUpdate({ _id: id }, { $set: data }, options);
     }
 
     permanentDelete(id) {
@@ -56,11 +86,24 @@ class BaseModel extends Base {
             });
     }
 
-    find(criteria, from = 0, amount = 10) {
-        return this.db.find({}).skip(from).limit(amount);
+    findIn(ids, from = 0, amount = 10) {
+        return this.db.find({ _id: { $in: ids } }).skip(from).limit(amount);
+    }
+
+    findById(id) {
+        return this.db.findOne({_id: id});
+    }
+
+    find(criteria = {}, from = 0, amount = 10) {
+        return this.db.find(criteria).skip(from).limit(amount);
+    }
+
+    findActive(criteria, from = 0, amount = 10) {
+        return this.find({ ...criteria, deleted: false }, from, amount);
     }
 }
 
 BaseModel.Joi = Joi;
+BaseModel.ObjectId = MongooseSchema.Types.ObjectId
 
 module.exports = BaseModel;

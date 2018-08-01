@@ -7,15 +7,24 @@ class LocationController extends BaseController {
 
         BaseController.build(this, {
             service: ['AccountService', 'UserService'],
-            model: ['AccountModel']
+            model: ['SpotModel']
         });
     }
 
-    ping(req, res, next){
+    ping(req, res, next) {
         const { location } = req.body;
-        console.log(location)
-        this.logger.debug(`Received a ping`, location);
-        res.status(200).json('Pong!');
+
+        this.spotModel.db.find({
+            $expr: {
+                $gte: ["$coordinate.radius", Math.acos(Math.sin("$coordinate.lat") * Math.sin(location.lat) + Math.cos("$coordinate.lat") * Math.cos(location.lat) * Math.cos("$coordinate.lng" - location.lng)) * 6371]
+            }
+        })
+            .then((result) => {
+                res.status(200).json(result);
+            })
+            .catch((err) => {
+                res.status(500).json(err.message);
+            });
     }
 }
 
