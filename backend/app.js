@@ -4,7 +4,7 @@ libs.load();
 
 const server = require('./api/server');
 
-const { database, redis, Logger } = global.__LIBS;
+const { database, redis, Logger, mysql } = global.__LIBS;
 
 const logger = new Logger('Application');
 
@@ -19,5 +19,5 @@ server.connect()
     //     return redis.connect();
     // })
     .then(() =>{
-        return database.connect();
+        return mysql.connect();
     });

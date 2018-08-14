@@ -6,6 +6,13 @@
         "port": 27017,
         "name": "geogame"
     },
+    "mysql": {
+        "host": "localhost",
+        "user": "root",
+        "password": "ge0game",
+        "database": "geogame",
+        "port": "3306"
+    },
     "log": {},
     "session": {
         "algorithm": "RS256",

@@ -1,0 +1,47 @@
+// DISTANCIA EM KM
+Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1)) * 6371;
+
+//((2*ASIN(SQRT((SIN((RADIANS(E2)-RADIANS($N$13))/2)^2)+COS(RADIANS(E2))*COS(RADIANS($N$13))*(SIN((RADIANS(F2)-RADIANS($N$14))/2)^2))))) * 6370,97327862273
+
+acos(sin(l1) * sin(l2) + cos(l1) * cos(l2) * cos(ln2 - ln1)) * : R
+
+function d() {
+    var R = (6370.97327862273) * 1000; // metres
+    var lat1 = -22.9157958; //casa
+    var lat2 = -22.9150855;
+    var lon1 = -43.2341946; //casa
+    var lon2 = -43.2339626;
+
+    var vlatr = toRadians(lat2 - lat1);
+    var vlngr = toRadians(lon2 - lon1);
+	var lat1r = toRadians(lat1);
+	var lat2r = toRadians(lat2);
+
+    var a = Math.sin(vlatr / 2) * Math.sin(vlatr / 2) +
+        Math.cos(lat1r) * Math.cos(lat2r) *
+        Math.sin(vlngr / 2) * Math.sin(vlngr / 2);
+
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    return R * c;
+}
+
+function d() {
+    var R = 6371e3; // metres
+    var lat1 = -22.916035;
+    var lat2 = -22.915694;
+    var lon1 = -43.234488;
+    var lon2 = -43.234223;
+    var vlat = lat2 - lat1;
+    var vlng = lon2 - lon1;
+
+    var a = Math.sin(vlat / 2) * Math.sin(vlat / 2) +
+        Math.cos(lat1) * Math.cos(lat2) *
+        Math.sin(vlng / 2) * Math.sin(vlng / 2);
+
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    return R * c;
+}
+
+Math.acos(Math.sin("$coordinate.lat") * Math.sin(-22.916019) + Math.cos("$coordinate.lat") * Math.cos(-22.916019) * Math.cos("$coordinate.lng" - -43.2351187)) * 6371

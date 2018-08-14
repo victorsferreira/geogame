@@ -1,4 +1,5 @@
 const database = require('./db');
+const mysql = require('./mysql');
 const JWT = require('./jwt');
 const Logger = require('./logger');
 const Session = require('./session');
@@ -13,6 +14,7 @@ const log = require('./core/log');
 
 const libs = {
     database,
+    mysql,
     JWT,
     Logger,
     Middleware,
