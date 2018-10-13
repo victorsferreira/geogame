@@ -13,6 +13,10 @@ class SpotModel extends BaseModel {
         super();
         this.setModel('Spot', schema);
     }
+
+    
+
+    //   ASIN(SQRT(SIN(((c.lat-${lat})*(PI()/180))/2)*SIN(((c.lat-${lat})*(PI()/180))/2)+COS(${lat}*(PI()/180))*COS(c.lat*(PI()/180))*SIN(((c.lng-${lng})*(PI()/180))/2)*SIN(((c.lng-${lng})*(PI()/180))/2)))*6370000.97327862273;
 }
 
 module.exports = new SpotModel();

@@ -9,7 +9,7 @@
     "mysql": {
         "host": "localhost",
         "user": "root",
-        "password": "ge0game",
+        "password": "geogame",
         "database": "geogame",
         "port": "3306"
     },
